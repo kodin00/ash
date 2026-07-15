@@ -42,7 +42,7 @@ jobs:
           mkdir -p dist
           tar -C "target/${{ matrix.target }}/release" -czf "dist/$archive" ash
           (cd dist && shasum -a 256 "$archive" > "$archive.sha256")
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: ash-${{ matrix.target }}
           path: dist/*
@@ -56,7 +56,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v8
         with:
           path: dist
           merge-multiple: true
