@@ -1,0 +1,11 @@
+[tools]
+rust = "stable"
+
+[tasks.check]
+description = "Format-check, lint, test, and build ash"
+run = [
+  "cargo fmt --check",
+  "cargo clippy --all-targets --all-features -- -D warnings",
+  "cargo test",
+  "cargo build --release",
+]

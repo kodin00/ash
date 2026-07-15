@@ -1,0 +1,15 @@
+[package]
+name = "ash-ssh"
+version = "0.1.0"
+edition = "2024"
+description = "A small SSH alias manager"
+license = "MIT"
+repository = "https://github.com/kodin00/ash"
+
+[[bin]]
+name = "ash"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+inquire = "0.9"
