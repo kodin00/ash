@@ -33,6 +33,23 @@ ash remove prod                                # remove
 No key selected? OpenSSH uses your agent or asks for a password. Passwords are
 never stored.
 
+## Config
+
+Default location:
+
+```text
+~/.config/ash/config
+```
+
+`$XDG_CONFIG_HOME/ash/config` and `$ASH_CONFIG_FILE` override the default.
+
+Open the active config in your editor:
+
+```sh
+config="${ASH_CONFIG_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/ash/config}"
+"${EDITOR:-vi}" "$config"
+```
+
 ## Build
 
 ```sh
