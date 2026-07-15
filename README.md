@@ -1,6 +1,12 @@
-# ash
+# 🔥 ash
+
+[![CI](https://github.com/kodin00/ash/actions/workflows/ci.yml/badge.svg)](https://github.com/kodin00/ash/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/kodin00/ash)](https://github.com/kodin00/ash/releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 `ssh`, minus the memory test.
+
+Name a machine once. Connect to it forever.
 
 ```console
 $ ash add
@@ -12,30 +18,30 @@ $ ash add
 $ ash prod
 ```
 
-## Install
+## ⚡ Install
 
 ```sh
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/kodin00/ash/releases/latest/download/ash-installer.sh | sh
 ```
 
-Prebuilt for macOS and Linux, on Intel and ARM. Installs to `~/.local/bin`.
+macOS and Linux. Intel and ARM. No Rust required.
 
-## Use
+## 🖥 Use
 
 ```sh
 ash add                                        # interactive setup
 ash add prod root:10.0.0.8 ~/.ssh/id_ed25519  # one-line setup
-ash list                                       # saved machines
+ash list                                       # list machines
 ash prod                                       # connect
 ash remove prod                                # remove
 ```
 
-No key selected? OpenSSH uses your agent or asks for a password. Passwords are
-never stored.
+## 🔑 Auth
 
-## Config
+Pick a key from `~/.ssh`, enter another path, or use your SSH agent/password.
+Passwords are never stored.
 
-Default location:
+## 📁 Config
 
 ```text
 ~/.config/ash/config
@@ -43,21 +49,19 @@ Default location:
 
 `$XDG_CONFIG_HOME/ash/config` and `$ASH_CONFIG_FILE` override the default.
 
-Open the active config in your editor:
-
 ```sh
 config="${ASH_CONFIG_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/ash/config}"
 "${EDITOR:-vi}" "$config"
 ```
 
-## Build
+## 🛠 Build
 
 ```sh
 mise install
 mise run check
 ```
 
-## Release
+## 🚀 Release
 
 ```sh
 git tag v0.1.0
