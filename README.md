@@ -67,3 +67,13 @@ mise run check
 git tag v0.1.0
 git push origin master --tags
 ```
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=kodin00%2Fash&type=date&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=kodin00/ash&type=date&theme=dark&legend=bottom-right&sealed_token=jXFaN4o8K77vTltqGMHo_Jvz2PtHuAPpOHOVQEmd3hx7GOOZFMuA1hUSVzz5N7cWjrui1RYNMUFvKELy-MHdUvQ6Wzz7a1LXukRWapuQO803cC3bRihBlQG5OwXPiiGqUF-aESdxfKeoF9Dp5ZeC9Q1UoFgHO92Iiy-k9KqwDWXW9CZkndL24HVddqz1" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=kodin00/ash&type=date&legend=bottom-right&sealed_token=jXFaN4o8K77vTltqGMHo_Jvz2PtHuAPpOHOVQEmd3hx7GOOZFMuA1hUSVzz5N7cWjrui1RYNMUFvKELy-MHdUvQ6Wzz7a1LXukRWapuQO803cC3bRihBlQG5OwXPiiGqUF-aESdxfKeoF9Dp5ZeC9Q1UoFgHO92Iiy-k9KqwDWXW9CZkndL24HVddqz1" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=kodin00/ash&type=date&legend=bottom-right&sealed_token=jXFaN4o8K77vTltqGMHo_Jvz2PtHuAPpOHOVQEmd3hx7GOOZFMuA1hUSVzz5N7cWjrui1RYNMUFvKELy-MHdUvQ6Wzz7a1LXukRWapuQO803cC3bRihBlQG5OwXPiiGqUF-aESdxfKeoF9Dp5ZeC9Q1UoFgHO92Iiy-k9KqwDWXW9CZkndL24HVddqz1" />
+ </picture>
+</a>
