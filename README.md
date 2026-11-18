@@ -1,4 +1,4 @@
-# 🔥 ash
+# ash
 
 [![CI](https://github.com/kodin00/ash/actions/workflows/ci.yml/badge.svg)](https://github.com/kodin00/ash/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/kodin00/ash)](https://github.com/kodin00/ash/releases/latest)
@@ -18,7 +18,7 @@ $ ash add
 $ ash prod
 ```
 
-## ⚡ Install
+## Install
 
 ```sh
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/kodin00/ash/releases/latest/download/ash-installer.sh | sh
@@ -26,7 +26,7 @@ curl --proto '=https' --tlsv1.2 -LsSf https://github.com/kodin00/ash/releases/la
 
 macOS and Linux. Intel and ARM. No Rust required.
 
-## 🖥 Use
+## Use
 
 ```sh
 ash add                                        # interactive setup
@@ -37,49 +37,15 @@ ash remove prod                                # remove
 ash keygen                                     # new ed25519 key at ~/.ssh/id_ed25519
 ```
 
-## 🧬 Keygen
-
-`ash keygen` wraps `ssh-keygen` with sane defaults — ed25519, no passphrase, private
-and public key written to `~/.ssh`.
-
-```sh
-ash keygen                                     # ~/.ssh/id_ed25519
-ash keygen --key-type rsa                      # ~/.ssh/id_rsa
-ash keygen --path ~/.ssh/work                  # custom path
-ash keygen --comment you@example.com
-ash keygen --force                             # overwrite existing key
-```
-
-## 🔑 Auth
+## Auth
 
 Pick a key from `~/.ssh`, enter another path, or use your SSH agent/password.
 Passwords are never stored.
 
-## 📁 Config
+## Config
 
 ```text
 ~/.config/ash/config
 ```
 
 `$XDG_CONFIG_HOME/ash/config` and `$ASH_CONFIG_FILE` override the default.
-
-```sh
-config="${ASH_CONFIG_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/ash/config}"
-"${EDITOR:-vi}" "$config"
-```
-
-## 🛠 Build
-
-```sh
-mise install
-mise run check
-```
-
-## 🚀 Release
-
-```sh
-git tag v0.1.0
-git push origin master --tags
-```
-
-# Cool
