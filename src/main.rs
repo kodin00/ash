@@ -48,6 +48,21 @@ enum Commands {
         /// Machine alias to remove
         alias: String,
     },
+    /// Generate a new SSH key pair
+    Keygen {
+        /// Key type: ed25519 or rsa (default: ed25519)
+        #[arg(long, default_value = "ed25519")]
+        key_type: String,
+        /// Path for the new key (default: ~/.ssh/id_ed25519 or ~/.ssh/id_rsa)
+        #[arg(long)]
+        path: Option<PathBuf>,
+        /// Comment for the key (passed to ssh-keygen -C)
+        #[arg(long)]
+        comment: Option<String>,
+        /// Overwrite an existing key at the same path
+        #[arg(long, short)]
+        force: bool,
+    },
     /// Treat any other command as a machine alias and connect with SSH
     #[command(external_subcommand)]
     Connect(Vec<OsString>),
@@ -164,7 +179,105 @@ fn run(cli: Cli) -> Result<u8> {
             Ok(0)
         }
         Commands::Connect(args) => connect(&path, args),
+        Commands::Keygen {
+            key_type,
+            path,
+            comment,
+            force,
+        } => keygen(&key_type, path, comment.as_deref(), force),
     }
+}
+
+fn keygen(key_type: &str, path: Option<PathBuf>, comment: Option<&str>, force: bool) -> Result<u8> {
+    let key_type = key_type.to_ascii_lowercase();
+    if !matches!(key_type.as_str(), "ed25519" | "rsa") {
+        return Err(AppError(format!(
+            "unsupported key type '{key_type}'; use ed25519 or rsa"
+        )));
+    }
+
+    let path = match path {
+        Some(path) => path,
+        None => {
+            let home = env::var_os("HOME").ok_or_else(|| {
+                AppError("HOME is not set; pass --path to choose a key location".into())
+            })?;
+            PathBuf::from(home).join(format!(".ssh/id_{key_type}"))
+        }
+    };
+    let expanded = expand_tilde(&path);
+    let absolute = if expanded.is_absolute() {
+        expanded
+    } else {
+        env::current_dir()
+            .map_err(|error| AppError(format!("could not resolve cwd: {error}")))?
+            .join(expanded)
+    };
+
+    if !force {
+        for suffix in ["", ".pub"] {
+            let candidate = append_suffix(&absolute, suffix);
+            if candidate.exists() {
+                return Err(AppError(format!(
+                    "{} already exists; pass --force to overwrite",
+                    candidate.display()
+                )));
+            }
+        }
+    }
+
+    if let Some(parent) = absolute
+        .parent()
+        .filter(|parent| !parent.as_os_str().is_empty())
+    {
+        fs::create_dir_all(parent)
+            .map_err(|error| AppError(format!("could not create {}: {error}", parent.display())))?;
+    }
+
+    let mut command = Command::new("ssh-keygen");
+    command.arg("-t").arg(&key_type).arg("-f").arg(&absolute);
+    if let Some(comment) = comment {
+        command.arg("-C").arg(comment);
+    }
+    command.arg("-N").arg("");
+    let status = command
+        .status()
+        .map_err(|error| AppError(format!("could not launch ssh-keygen: {error}")))?;
+    if !status.success() {
+        return Ok(status.code().unwrap_or(1).clamp(0, 255) as u8);
+    }
+
+    println!("Generated {} key at {}", key_type, absolute.display());
+    println!("Public key:");
+    fs::read_to_string(append_suffix(&absolute, ".pub"))
+        .map(|contents| print!("{}", contents))
+        .map_err(|error| {
+            AppError(format!(
+                "could not read {}: {error}",
+                append_suffix(&absolute, ".pub").display()
+            ))
+        })?;
+    Ok(0)
+}
+
+fn expand_tilde(path: &Path) -> PathBuf {
+    if path == Path::new("~") {
+        return env::var_os("HOME")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| path.to_path_buf());
+    }
+    if let Ok(rest) = path.strip_prefix("~/")
+        && let Some(home) = env::var_os("HOME")
+    {
+        return PathBuf::from(home).join(rest);
+    }
+    path.to_path_buf()
+}
+
+fn append_suffix(path: &Path, suffix: &str) -> PathBuf {
+    let mut os = path.as_os_str().to_os_string();
+    os.push(suffix);
+    PathBuf::from(os)
 }
 
 #[derive(Clone, Debug)]

@@ -34,6 +34,20 @@ ash add prod root:10.0.0.8 ~/.ssh/id_ed25519  # one-line setup
 ash list                                       # list machines
 ash prod                                       # connect
 ash remove prod                                # remove
+ash keygen                                     # new ed25519 key at ~/.ssh/id_ed25519
+```
+
+## 🧬 Keygen
+
+`ash keygen` wraps `ssh-keygen` with sane defaults — ed25519, no passphrase, private
+and public key written to `~/.ssh`.
+
+```sh
+ash keygen                                     # ~/.ssh/id_ed25519
+ash keygen --key-type rsa                      # ~/.ssh/id_rsa
+ash keygen --path ~/.ssh/work                  # custom path
+ash keygen --comment you@example.com
+ash keygen --force                             # overwrite existing key
 ```
 
 ## 🔑 Auth
